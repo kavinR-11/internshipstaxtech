@@ -1,0 +1,120 @@
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+struct Student {
+    int id;
+    string name;
+    int attendance;
+    float grade;
+    string message;
+};
+
+vector<Student> students;
+
+void enrollStudent() {
+    Student s;
+    cout << "Enter Student ID: ";
+    cin >> s.id;
+    cin.ignore();
+    cout << "Enter Student Name: ";
+    getline(cin, s.name);
+    s.attendance = 0;
+    s.grade = 0.0;
+    s.message = "No messages yet.";
+    students.push_back(s);
+    cout << "Student enrolled successfully.\n";
+}
+
+void markAttendance() {
+    int id;
+    cout << "Enter Student ID to mark attendance: ";
+    cin >> id;
+    for (auto& s : students) {
+        if (s.id == id) {
+            s.attendance++;
+            cout << "Attendance marked for " << s.name << ".\n";
+            return;
+        }
+    }
+    cout << "Student not found.\n";
+}
+
+void updateGrade() {
+    int id;
+    cout << "Enter Student ID to update grade: ";
+    cin >> id;
+    for (auto& s : students) {
+        if (s.id == id) {
+            cout << "Enter new grade: ";
+            cin >> s.grade;
+            cout << "Grade updated for " << s.name << ".\n";
+            return;
+        }
+    }
+    cout << "Student not found.\n";
+}
+
+void sendMessage() {
+    int id;
+    string msg;
+    cout << "Enter Student ID to send message: ";
+    cin >> id;
+    cin.ignore();
+    cout << "Enter message: ";
+    getline(cin, msg);
+    for (auto& s : students) {
+        if (s.id == id) {
+            s.message = msg;
+            cout << "Message sent to " << s.name << ".\n";
+            return;
+        }
+    }
+    cout << "Student not found.\n";
+}
+
+void viewStudent() {
+    int id;
+    cout << "Enter Student ID to view details: ";
+    cin >> id;
+    for (const auto& s : students) {
+        if (s.id == id) {
+            cout << "\n--- Student Details ---\n";
+            cout << "ID: " << s.id << "\n";
+            cout << "Name: " << s.name << "\n";
+            cout << "Attendance: " << s.attendance << "\n";
+            cout << "Grade: " << s.grade << "\n";
+            cout << "Message: " << s.message << "\n";
+            return;
+        }
+    }
+    cout << "Student not found.\n";
+}
+
+int main() {
+    int choice;
+    do {
+        cout << "\n=== Student Management System ===\n";
+        cout << "1. Enroll Student\n";
+        cout << "2. Mark Attendance\n";
+        cout << "3. Update Grade\n";
+        cout << "4. Send Message\n";
+        cout << "5. View Student Info\n";
+        cout << "6. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch(choice) {
+            case 1: enrollStudent(); break;
+            case 2: markAttendance(); break;
+            case 3: updateGrade(); break;
+            case 4: sendMessage(); break;
+            case 5: viewStudent(); break;
+            case 6: cout << "Exiting system.\n"; break;
+            default: cout << "Invalid choice.\n";
+        }
+    } while (choice != 6);
+
+    return 0;
+}
